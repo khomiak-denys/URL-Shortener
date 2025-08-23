@@ -12,7 +12,7 @@ namespace URL_Shortener.Infrastructure.Repositories
 
         public EFUserRepository(AppDbContext dbContext)
         {
-            _dbContext = dbContext;
+            _dbContext = dbContext;   
         }
 
         public async Task<User> GetByLoginAsync(string login)
