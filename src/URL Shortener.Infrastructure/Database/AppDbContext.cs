@@ -7,6 +7,7 @@ namespace URL_Shortener.Infrastructure.Database
     public class AppDbContext : DbContext
     {
         public DbSet<User> Users {  get; set; }
+        public DbSet<UrlItem> UrlItems { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base (options) { }
 
@@ -25,6 +26,16 @@ namespace URL_Shortener.Infrastructure.Database
                     Role = "Admin"
                 }
                 ]);
+
+            modelBuilder.Entity<UrlItem>()
+                .HasIndex(i => i.LongUrl)
+                .HasDatabaseName("IX_UrlItemsLongUrl")
+                .IsUnique();
+
+            modelBuilder.Entity<UrlItem>()
+                .HasIndex(i => i.ShortUrl)
+                .HasDatabaseName("IX_UrlItemsShortUrl")
+                .IsUnique();
         }
     }
 }
