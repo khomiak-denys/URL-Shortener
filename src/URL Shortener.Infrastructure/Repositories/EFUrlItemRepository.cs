@@ -23,5 +23,22 @@ namespace URL_Shortener.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync();
             return item;
         }
+
+        public async Task<IEnumerable<UrlItem>> GetAllAsync()
+        {
+            return _dbContext.UrlItems.ToList();
+        }
+        public async Task<UrlItem> GetByIdAsync(long id)
+        {
+            return _dbContext.UrlItems.Where(i => i.Id ==  id).FirstOrDefault();
+        }
+
+        public async Task<bool> DeleteById(long id)
+        {
+            var item = _dbContext.UrlItems.FirstOrDefault(i => i.Id == id);
+            _dbContext.UrlItems.Remove(item);
+            await _dbContext.SaveChangesAsync();
+            return true;
+        }
     }
 }

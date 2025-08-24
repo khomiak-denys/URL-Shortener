@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json;
+using URL_Shortener.API.Middleware;
 
 
 
@@ -33,6 +34,18 @@ namespace URL_Shortener.API
 
             builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQL")));
+
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFrontend", policy =>
+                {
+                    policy.WithOrigins("http://localhost:3000", "http://127.0.0.1:3000")
+                        .WithMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .WithHeaders("Content-Type", "Authorization")
+                        .AllowCredentials();
+                });
+            });
 
 
             builder.Services.Configure<JsonOptions>(options =>
@@ -106,7 +119,13 @@ namespace URL_Shortener.API
                 app.UseSwaggerUI();
             }
 
+            app.UseCors("AllowFrontend");
+
+            app.UseAuthentication();
             app.UseAuthorization();
+            
+
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 
             app.MapControllers();
