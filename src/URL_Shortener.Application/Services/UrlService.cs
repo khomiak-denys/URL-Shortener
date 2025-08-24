@@ -62,7 +62,10 @@ namespace URL_Shortener.Application.Services
                     sb.Append(b.ToString("x2"));
                 }
                 shortCode = sb.ToString().Substring(sb.Length - 6);
-                string baseUrl = _configuration.GetValue<string>("Kestrel:Endpoints:Http:Url");
+
+                var request = _httpContextAccessor.HttpContext.Request;
+                var baseUrl = $"{request.Scheme}://{request.Host}";
+
                 shortUrl = $"{baseUrl}/{shortCode}";
             }
             var newItem = new UrlItem
