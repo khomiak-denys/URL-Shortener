@@ -1,6 +1,14 @@
 version: "3.9"
 
 services:
+  frontend:
+    build: ./frontend/url-shortener
+    container_name: url_shortener_frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+
   api: 
     build: .
     container_name: url_shortener_api
@@ -9,6 +17,7 @@ services:
     depends_on: 
       db:
         condition: service_healthy
+
   db:
     image: postgres:17
     container_name: url_shortener_db
