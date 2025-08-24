@@ -9,21 +9,26 @@ This will start containers for the API, frontend, and database.
 	•	Backend: http://localhost:5000
 
  API Endpoints
-	•	Login
+ Login
 POST /api/users/login
 Body: { "login": "string", "password": "string" }
 Returns: { id, login, token, expiresIn }
-	•	Register
+	•	
+ Register
 POST /api/users/register
 Body: { "login": "string", "password": "string" }
 Returns: { id, login, passwordHash, role }
-	•	Shorten URL
+	•	
+ Shorten URL
 POST /shorten
 Body: string (long URL)
 Returns: string (short URL)
-	•	Redirect
+	•	
+ Redirect
 GET /{shortCode} → redirects to original URL
-	•	Delete URL
+	•	
+ Delete URL
 DELETE /url/{id} → deletes a URL entry
-	•	URL Details
+	•	
+ URL Details
 GET /url/{id}/details → returns { id, longUrl, shortUrl, createdByUserId, timestamp }
